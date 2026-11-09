@@ -22,7 +22,7 @@ nothing in it is tied to that project.
 | D-7 | CH4 current comes from a clamp-on split-core CT only (AC). No in-line shunt. | 2026-11-09 | Scotty |
 | D-8 | CH4 is sized for small loads: SCT-013-000 current-output CT (100 A : 50 mA) with a 33 Ω burden, about 21 A RMS full scale. For very small loads, loop the wire through the clamp N times and divide by N (set in calibration). | 2026-11-09 | Scotty (small loads), Claude (CT and burden) |
 
-## Open questions
+## Notes
 
 - DC current is not on the board; for low-voltage projects add an INA226 on the expansion header.
 
