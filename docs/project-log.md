@@ -11,3 +11,4 @@ Newest last. One line per event; details live in the requirements doc.
 - 2026-11-09: Scotty can't hand-solder SMD, so all through-hole (D-9, D-10): CH1-CH3 HCPL-7840 (DIP-8) + SIP isolated DC-DC; CH4 PZEM-004T v3.0 module (supersedes ADE7953 and the 33 Ω CT burden). Requirements v0.3.
 - 2026-11-09: Digi-Key stock-check CSV (hardware/digikey-stock-check.csv) for Scotty's inventory check; PZEM-004T and enclosure bought elsewhere / later.
 - 2026-11-09: Requirements scrub against the fan interposer (D-11, v0.4): its WH rail and two YE/VSP signals fit CH1-CH3 LV, but the tach comparison needed frequency inputs and the 1 s motor-power drops needed min/max. Added F1/F2 (LTV-827) and per-interval min/max. Waveform/PWM work stays with the scope.
+- 2026-11-09: Scotty's Digi-Key check: Staubli jacks not carried, REM1-0509S and Yageo HHV non-stock (MOQ). Swapped to Pomona 72930-x jacks, REM1-0505S + MCP1702-5002 LDO, Stackpole RNV14/RNV12 HV resistors.

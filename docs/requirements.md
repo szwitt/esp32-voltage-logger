@@ -62,14 +62,17 @@ LV jack ──[fuse/flameproof R]──[390 kΩ, 1 W, 500 V]──┤
                                                      ├── HCPL-7840 VIN+ ──║── VOUT+/VOUT- ── op-amp (diff -> single-ended, 1.65 V mid)
 COM jack ──────────────────────[1.69 kΩ]─────────────┘    HCPL-7840 VIN-  ║               └── ESP32-S3 ADC1 pin
                                                           VDD1 5 V        ║  VDD2 5 V (USB side)
-   isolated 5 V: SIP DC-DC (5 V in, 9 V out, reinforced rated) -> 78L05 -> VDD1
+   isolated 5 V: REM1-0505S SIP DC-DC (reinforced, 5.2 kVDC) -> MCP1702-5002 LDO -> VDD1
 ```
 
 - **Isolation amplifier:** Broadcom HCPL-7840-000E, through-hole DIP-8 (D-9).
   ±200 mV linear input (±300 mV clip), fixed gain 8, AC and DC. Gain tolerance
   about ±5%, so each channel is calibrated (FR-7).
-- **Input-side supply:** one through-hole SIP isolated DC-DC per channel
-  (reinforced rated, for example a RECOM REM1-0509S; to confirm), then a 78L05.
+- **Input-side supply:** one RECOM REM1-0505S (SIP7, 1 W, 5.2 kVDC reinforced)
+  per channel, then an MCP1702-5002 low-dropout regulator (TO-92) so VDD1
+  stays inside 4.5 to 5.5 V whatever the module's light-load output.
+- **Jacks:** Pomona 72930-x panel jacks (IEC 61010, for sheathed plugs) on
+  the enclosure lid, wired to the board with 600 V rated wire and ring lugs.
 - **Scaling (nominal):** HV 425 V peak and LV 42 V peak both map to about
   ±0.18 V at the HCPL input, ±1.44 V differential at its output, and (op-amp
   gain 0.75) about ±1.08 V at the ADC around 1.65 V. Overall gain stays about
@@ -120,7 +123,7 @@ COM jack ─────────┘                          │   CT (split
 |----|-------------|
 | SR-1 | Aim at CAT II 300 V practice. This is a home-built, uncertified instrument; use it with that in mind. |
 | SR-2 | Creepage across each channel's barrier and between channels at least 6.4 mm, with board slots under each HCPL-7840 and SIP DC-DC, and around the PZEM module's mains terminals. |
-| SR-3 | Shrouded 4 mm banana jacks and CAT II (or better) rated leads only. |
+| SR-3 | Shrouded 4 mm banana jacks (Pomona 72930-x, IEC 61010) and CAT II (or better) rated sheathed leads only. Jack-to-board wires 600 V rated. |
 | SR-4 | Every HI input has a fuse or flameproof series resistor; HV divider split over several resistors so none sees more than its rated voltage. |
 | SR-5 | Closed plastic enclosure; no exposed metal connected to any input. USB and expansion header are on the safe (ESP32) side only. |
 | SR-6 | Connect leads with the circuit de-energised where possible. |
@@ -154,4 +157,4 @@ min and max in one sampling pass is planned (FR-18 min/max is done in YAML for n
 | 0.1 | 2026-11-09 | First draft: D-1 to D-3, per-channel AMC3330 concept, open questions Q-1 to Q-3; D-4, D-5 settle Q-1 and Q-2. |
 | 0.2 | 2026-11-09 | D-6 CH4 power channel with ADE7953 (settles Q-3), D-7 CT-only current. FR-13 to FR-16, CH4 hardware concept. D-8 CT for small loads (33 Ω burden). |
 | 0.3 | 2026-11-09 | D-9 all through-hole: HCPL-7840 + SIP DC-DC on CH1-CH3. D-10 PZEM-004T module on CH4 (supersedes ADE7953 and D-8). FR-5, FR-13 to FR-16 and both hardware concepts rewritten. |
-| 0.4 | 2026-11-09 | Requirements scrub against the interposer (D-11): FR-17 isolated frequency/state inputs F1, F2; FR-18 min/max per interval; table of interposer signals vs channels. |
+| 0.4 | 2026-11-09 | Requirements scrub against the interposer (D-11): FR-17 isolated frequency/state inputs F1, F2; FR-18 min/max per interval; table of interposer signals vs channels. Stock check: REM1-0505S + MCP1702 replace REM1-0509S + 78L05, Stackpole RNV replace Yageo HHV, Pomona 72930 jacks replace Staubli. |
