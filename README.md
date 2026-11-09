@@ -10,7 +10,7 @@ Status: **design draft**. No hardware built yet.
 
 ## At a glance
 
-- 4 channels, each with its own reinforced isolation barrier (TI AMC3330 isolated amplifier).
+- 4 channels, each with its own reinforced isolation barrier (CH1-CH3: TI AMC3330 isolated amplifier; CH4: ISO1640 I2C isolator + UCC12050 isolated supply).
 - CH1-CH3: HV jack (to 425 V peak, so 240 V AC with margin), LV jack (to about 42 V peak), shared COM.
   In HA: DC (mean), AC RMS, true RMS, and a Range select (HV/LV).
 - CH4 power channel (ADE7953): HV jack + COM + CT socket. In HA: AC voltage, frequency, current, power, apparent power, power factor.
