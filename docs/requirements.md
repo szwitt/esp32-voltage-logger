@@ -20,10 +20,10 @@ nothing in it is tied to that project.
 | D-5 | High and low input ranges. Every voltage channel (CH1-CH3) gets both an HV and an LV jack on a shared COM (no jumpers: they would sit on the mains side). Range selected in Home Assistant. | 2026-11-09 | Scotty (ranges), Claude (jack layout) |
 | D-6 | CH4 is a power channel (voltage, current, power) using one energy-meter chip; CH1-CH3 stay voltage-only. ADI ADE7953 chosen over the Cirrus CS5460A (still in production, ESPHome driver, I2C so a 2-wire isolator, two current inputs). | 2026-11-09 | Scotty (power channel), Claude (chip) |
 | D-7 | CH4 current comes from a clamp-on split-core CT only (AC). No in-line shunt. | 2026-11-09 | Scotty |
+| D-8 | CH4 is sized for small loads: SCT-013-000 current-output CT (100 A : 50 mA) with a 33 Ω burden, about 21 A RMS full scale. For very small loads, loop the wire through the clamp N times and divide by N (set in calibration). | 2026-11-09 | Scotty (small loads), Claude (CT and burden) |
 
 ## Open questions
 
-- **Q-4 CT size.** Proposed: SCT-013-000 (100 A : 50 mA, current output) with a 10 Ω burden on the board, about 70 A RMS full scale. A smaller CT (for example 20 A) would read light loads better.
 - DC current is not on the board; for low-voltage projects add an INA226 on the expansion header.
 
 ## Functional requirements
@@ -44,7 +44,7 @@ nothing in it is tied to that project.
 | FR-12 | Works without Home Assistant too: ESPHome web server shows live readings. |
 | FR-13 | CH4 reports AC voltage RMS, frequency, CT current RMS, active power, apparent power and power factor (D-6, D-7). CH4 voltage is AC only (the chip's high-pass filter is on). |
 | FR-14 | CH4 voltage: one HV jack + COM, at least 300 V RMS. The chip's 24-bit converter resolves low voltages on the same range, so no LV jack. |
-| FR-15 | CH4 current: 3.5 mm socket for a split-core CT, burden on the board (Q-4). |
+| FR-15 | CH4 current: 3.5 mm socket for a split-core CT, 33 Ω burden on the board (D-8). |
 | FR-16 | CH4 calibration: voltage, current and power multipliers in YAML substitutions. |
 
 ## Hardware concept: voltage channels CH1-CH3
@@ -75,7 +75,7 @@ COM jack ──────────────────────[8.45
 ```
 HV jack ──[fuse/flameproof R]──[4 x 240 kΩ HV string]──┬── ADE7953 V+   (±0.5 V pk max; 425 V pk -> about 0.44 V)
 COM jack ───────────────────────[1 kΩ]─────────────────┴── ADE7953 V-, AGND
-CT socket (3.5 mm) ── 10 Ω burden ── ADE7953 IAP/IAN    (current input B left unpopulated)
+CT socket (3.5 mm) ── 33 Ω burden (about 21 A RMS full scale) ── ADE7953 IAP/IAN    (current input B left unpopulated)
 ADE7953 I2C (0x38) ──║ ISO1640 (reinforced I2C isolator) ║── ESP32 I2C GPIO8/9
 3.3 V for ADE7953    ──║ UCC12050 (reinforced isolated DC-DC) ║── ESP32 5 V
 3.58 MHz crystal on the ADE7953
@@ -111,4 +111,4 @@ min and max in one sampling pass is planned.
 | Version | Date | Change |
 |---------|------|--------|
 | 0.1 | 2026-11-09 | First draft: D-1 to D-3, per-channel AMC3330 concept, open questions Q-1 to Q-3; D-4, D-5 settle Q-1 and Q-2. |
-| 0.2 | 2026-11-09 | D-6 CH4 power channel with ADE7953 (settles Q-3), D-7 CT-only current. FR-13 to FR-16, CH4 hardware concept, Q-4 CT size. |
+| 0.2 | 2026-11-09 | D-6 CH4 power channel with ADE7953 (settles Q-3), D-7 CT-only current. FR-13 to FR-16, CH4 hardware concept. D-8 CT for small loads (33 Ω burden). |
