@@ -1,0 +1,53 @@
+# One LV logger channel: Adafruit INA228 breakout (I2C), bus voltage 0-85 V
+# referenced to the logger's shared COM, plus current through the board's
+# 15 mOhm shunt (optional: leave IN+/IN- bridged for voltage only).
+# Vars: ch, addr, name, samples (per report), sample_interval.
+#
+# Reports: <name> Voltage (mean over the report), <name> Min, <name> Max
+# (FR-L4: catches ~1 s dips), <name> Current (mean).
+
+sensor:
+  - platform: ina2xx_i2c
+    model: INA228
+    address: ${addr}
+    shunt_resistance: 0.015 ohm
+    max_current: 10A
+    adc_time: 540us
+    adc_averaging: 16
+    update_interval: ${sample_interval}
+    bus_voltage:
+      name: "${name} Voltage raw"   # name required by the driver schema
+      id: lv${ch}_v_raw
+      internal: true
+    current:
+      name: "${name} Current"
+      accuracy_decimals: 4
+      filters:
+        - sliding_window_moving_average:
+            window_size: ${samples}
+            send_every: ${samples}
+
+  - platform: copy
+    source_id: lv${ch}_v_raw
+    name: "${name} Voltage"
+    accuracy_decimals: 4
+    filters:
+      - sliding_window_moving_average:
+          window_size: ${samples}
+          send_every: ${samples}
+  - platform: copy
+    source_id: lv${ch}_v_raw
+    name: "${name} Min"
+    accuracy_decimals: 4
+    filters:
+      - min:
+          window_size: ${samples}
+          send_every: ${samples}
+  - platform: copy
+    source_id: lv${ch}_v_raw
+    name: "${name} Max"
+    accuracy_decimals: 4
+    filters:
+      - max:
+          window_size: ${samples}
+          send_every: ${samples}

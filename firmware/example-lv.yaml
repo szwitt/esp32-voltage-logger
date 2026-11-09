@@ -1,0 +1,18 @@
+# Example LV logger device file: copy per logger/project, set names.
+substitutions:
+  device_name: lv-logger-1
+  friendly_name: LV Logger 1
+  api_key: !secret lv_logger_1_api_key
+  ch1_name: "WH rail"
+  ch2_name: "YE board"
+  ch3_name: "YE ESP"
+  ch4_name: "L4"
+  f1_name: "Tach motor"
+  f1_unit: "rpm"
+  f1_scale_per_min: "0.0833333"   # 12 pulses per rev
+  f2_name: "Tach board"
+  f2_unit: "rpm"
+  f2_scale_per_min: "0.0833333"
+
+packages:
+  logger: !include lv-logger.yaml

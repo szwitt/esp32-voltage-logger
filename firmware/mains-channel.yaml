@@ -1,0 +1,36 @@
+# One mains logger channel: PZEM-004T v3.0 (100 A, split-core CT) on its own
+# UART. AC 80-260 V only. Vars: ch, tx, rx, name, plus optional trims.
+
+uart:
+  - id: m${ch}_uart
+    tx_pin: ${tx}
+    rx_pin: ${rx}
+    baud_rate: 9600
+
+modbus:
+  - id: m${ch}_modbus
+    uart_id: m${ch}_uart
+
+sensor:
+  - platform: pzemac
+    modbus_id: m${ch}_modbus
+    update_interval: ${report_interval}
+    voltage:
+      name: "${name} Voltage"
+      filters:
+        - multiply: ${v_cal}
+    current:
+      name: "${name} Current"
+      accuracy_decimals: 3
+      filters:
+        - multiply: ${i_cal}
+    power:
+      name: "${name} Power"
+      filters:
+        - multiply: ${p_cal}
+    energy:
+      name: "${name} Energy"
+    frequency:
+      name: "${name} Frequency"
+    power_factor:
+      name: "${name} Power factor"

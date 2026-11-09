@@ -1,0 +1,20 @@
+# Mains logger package (Logger M): 2 x PZEM-004T v3.0, each on its own UART
+# (UART1 GPIO17/18, UART2 GPIO15/16). Each module is isolated (optocoupled
+# serial) and factory calibrated; *_cal are optional trims.
+# Include from a device file (see example-mains.yaml); don't edit per project.
+
+substitutions:
+  report_interval: 1s
+  m1_name: "M1"
+  m2_name: "M2"
+  m1_v_cal: "1.0"
+  m1_i_cal: "1.0"
+  m1_p_cal: "1.0"
+  m2_v_cal: "1.0"
+  m2_i_cal: "1.0"
+  m2_p_cal: "1.0"
+
+packages:
+  base: !include common.yaml
+  m1: !include { file: mains-channel.yaml, vars: { ch: 1, tx: GPIO17, rx: GPIO18, name: "${m1_name}", report_interval: "${report_interval}", v_cal: "${m1_v_cal}", i_cal: "${m1_i_cal}", p_cal: "${m1_p_cal}" } }
+  m2: !include { file: mains-channel.yaml, vars: { ch: 2, tx: GPIO15, rx: GPIO16, name: "${m2_name}", report_interval: "${report_interval}", v_cal: "${m2_v_cal}", i_cal: "${m2_i_cal}", p_cal: "${m2_p_cal}" } }

@@ -1,0 +1,52 @@
+# F1, F2: optocoupled frequency / state inputs (FR-L3), LTV-827 into GPIO10/11.
+# The optocoupler inverts and the pin has a pull-up, so "on" = signal high.
+# Scale per input: f1_scale_per_min converts pulses/min to your unit
+# (default Hz). 12-pulse fan tach in rpm: f1_scale_per_min "0.0833333", f1_unit "rpm".
+
+sensor:
+  - platform: pulse_counter
+    pin:
+      number: GPIO10
+      mode: INPUT_PULLUP
+      allow_other_uses: true
+    name: "${f1_name} Frequency"
+    unit_of_measurement: ${f1_unit}
+    update_interval: ${report_interval}
+    count_mode:
+      rising_edge: INCREMENT
+      falling_edge: DISABLE
+    filters:
+      - multiply: ${f1_scale_per_min}
+  - platform: pulse_counter
+    pin:
+      number: GPIO11
+      mode: INPUT_PULLUP
+      allow_other_uses: true
+    name: "${f2_name} Frequency"
+    unit_of_measurement: ${f2_unit}
+    update_interval: ${report_interval}
+    count_mode:
+      rising_edge: INCREMENT
+      falling_edge: DISABLE
+    filters:
+      - multiply: ${f2_scale_per_min}
+
+binary_sensor:
+  - platform: gpio
+    pin:
+      number: GPIO10
+      mode: INPUT_PULLUP
+      inverted: true
+      allow_other_uses: true
+    name: "${f1_name} State"
+    filters:
+      - delayed_on_off: 20ms
+  - platform: gpio
+    pin:
+      number: GPIO11
+      mode: INPUT_PULLUP
+      inverted: true
+      allow_other_uses: true
+    name: "${f2_name} State"
+    filters:
+      - delayed_on_off: 20ms
