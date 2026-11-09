@@ -3,7 +3,7 @@
 # see example-device.yaml.
 #
 # Required substitutions (set in the device file):
-#   device_name, friendly_name, ch1_name .. ch4_name
+#   device_name, friendly_name, api_key (!secret), ch1_name .. ch4_name
 # Optional (defaults below): report_interval, calibration per channel.
 
 substitutions:
@@ -41,7 +41,7 @@ esp32:
 logger:
 api:
   encryption:
-    key: !secret ${device_name}_api_key
+    key: ${api_key}
 ota:
   - platform: esphome
 wifi:
@@ -61,8 +61,8 @@ i2c:
 packages:
   ch1: !include { file: channel.yaml, vars: { ch: 1, pin: GPIO1, name: "${ch1_name}", report_interval: "${report_interval}", mid: "${mid}", k_hv: "${ch1_k_hv}", k_lv: "${ch1_k_lv}", zero_hv: "${ch1_zero_hv}", zero_lv: "${ch1_zero_lv}" } }
   ch2: !include { file: channel.yaml, vars: { ch: 2, pin: GPIO2, name: "${ch2_name}", report_interval: "${report_interval}", mid: "${mid}", k_hv: "${ch2_k_hv}", k_lv: "${ch2_k_lv}", zero_hv: "${ch2_zero_hv}", zero_lv: "${ch2_zero_lv}" } }
-  ch3: !include { file: channel.yaml, vars: { ch: 3, pin: GPIO3, name: "${ch3_name}", report_interval: "${report_interval}", mid: "${mid}", k_hv: "${ch3_k_hv}", k_lv: "${ch3_k_lv}", zero_hv: "${ch3_zero_hv}", zero_lv: "${ch3_zero_lv}" } }
-  ch4: !include { file: channel.yaml, vars: { ch: 4, pin: GPIO4, name: "${ch4_name}", report_interval: "${report_interval}", mid: "${mid}", k_hv: "${ch4_k_hv}", k_lv: "${ch4_k_lv}", zero_hv: "${ch4_zero_hv}", zero_lv: "${ch4_zero_lv}" } }
+  ch3: !include { file: channel.yaml, vars: { ch: 3, pin: GPIO5, name: "${ch3_name}", report_interval: "${report_interval}", mid: "${mid}", k_hv: "${ch3_k_hv}", k_lv: "${ch3_k_lv}", zero_hv: "${ch3_zero_hv}", zero_lv: "${ch3_zero_lv}" } }
+  ch4: !include { file: channel.yaml, vars: { ch: 4, pin: GPIO6, name: "${ch4_name}", report_interval: "${report_interval}", mid: "${mid}", k_hv: "${ch4_k_hv}", k_lv: "${ch4_k_lv}", zero_hv: "${ch4_zero_hv}", zero_lv: "${ch4_zero_lv}" } }
 
 sensor:
   - platform: wifi_signal

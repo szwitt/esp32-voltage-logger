@@ -25,9 +25,7 @@ sensor:
   # Raw ADC voltage. Read fast; the DC sensor below averages it.
   - platform: adc
     id: ch${ch}_adc
-    pin:
-      number: ${pin}
-      allow_other_uses: true
+    pin: ${pin}
     attenuation: 12db
     update_interval: 13ms   # not a divisor of 50/60 Hz periods, so averages wash out AC
     internal: true

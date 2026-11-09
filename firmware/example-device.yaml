@@ -4,6 +4,7 @@
 substitutions:
   device_name: voltage-logger-1
   friendly_name: Voltage Logger 1
+  api_key: !secret voltage_logger_1_api_key
   ch1_name: "CH1"
   ch2_name: "CH2"
   ch3_name: "CH3"

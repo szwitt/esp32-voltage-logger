@@ -59,7 +59,7 @@ COM jack ──────────────────────[8.45
 - **Fault case:** mains on the LV jack must not damage anything: the 390 kΩ
   then dissipates about 0.3 W, so it is a 1 W, 500 V rated part, and the
   AMC3330 input current stays well inside its limit.
-- **ADC:** ESP32-S3 ADC1 (GPIO1 to GPIO4), calibrated per channel. A dedicated
+- **ADC:** ESP32-S3 ADC1 (GPIO1, GPIO2, GPIO5, GPIO6; GPIO3 is a strapping pin), calibrated per channel. A dedicated
   ADC is a possible later upgrade if the ESP32 ADC proves too noisy.
 - **Board:** small 2-layer PCB (OSH Park), ESP32-S3-DevKitC-1 on headers.
 
