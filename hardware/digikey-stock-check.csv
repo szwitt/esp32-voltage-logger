@@ -1,22 +1,22 @@
 Digi-Key Part Number,Manufacturer Part Number,Manufacturer,Quantity,Customer Reference,Description
-,HCPL-7840-000E,Broadcom,3,U1-U3 (CH1-CH3),"Isolation amplifier, DIP-8 through-hole, +/-200 mV in, gain 8, AC+DC (D-9)"
+516-1482-5-ND,HCPL-7840-000E,Broadcom,3,U1-U3 (CH1-CH3),"Isolation amplifier, DIP-8 through-hole, +/-200 mV in, gain 8, AC+DC (D-9)"
 ,REM1-0505S,RECOM Power,3,PS1-PS3 (CH1-CH3),"Isolated DC-DC 1 W, 5 V in / 5 V out, SIP7, 5.2 kVDC reinforced; input-side supply for each HCPL (REM1-0509S not stocked)"
 ,MCP1702-5002E/TO,Microchip Technology,3,U4-U6 (CH1-CH3),"5.0 V LDO, 250 mA, TO-92; regulates the REM1 output for HCPL VDD1 (replaces 78L05: dropout too high from a 5 V module)"
-,MCP6002-I/P,Microchip,2,U7-U8,"Dual rail-to-rail op-amp, DIP-8, 3.3 V; diff -> single-ended stage, one dual per two channels"
+MCP6002-I/P-ND,MCP6002-I/P,Microchip,2,U7-U8,"Dual rail-to-rail op-amp, DIP-8, 3.3 V; diff -> single-ended stage, one dual per two channels"
 ,RNV14FAL1M00,Stackpole Electronics,12,"R1-R12 (CH1-CH3 HV string, 4 per channel)","1 MOhm 1% 1/4 W high-voltage (1600 V) metal film, axial (Yageo HHV was non-stock, MOQ 5000)"
 ,RNV12FAL390K,Stackpole Electronics,3,R13-R15 (CH1-CH3 LV top),"390 kOhm 1% 1/2 W high-voltage metal film, axial; survives mains on the LV jack (about 0.3 W). Yageo HHV was non-stock"
-,MFR-25FBF52-1K69,Yageo,3,R16-R18 (CH1-CH3 divider bottom),1.69 kOhm 1% 1/4 W metal film
-,MFR-25FBF52-39R,Yageo,3,R19-R21 (HCPL input filter),"39 Ohm 1% 1/4 W metal film (datasheet input RC filter, with 22 nF C0G already on hand)"
-,MFR-25FBF52-7K5,Yageo,6,R22-R27 (op-amp gain),7.5 kOhm 1% 1/4 W metal film (gain 0.75 with 10k on hand)
-,FK14C0G1H223JN020,TDK,3,C1-C3 (HCPL input filter),"22 nF C0G 50 V radial; ON HAND (Parts Bin), listed only to check count"
-,K104K15X7RF5TL2,Vishay,20,"bypass, all channels","100 nF X7R radial; ON HAND (Parts Bin), listed only to check count"
-,FK14X7R1H105KR020,TDK,12,"DC-DC in/out, 78L05 out","1 uF X7R 50 V radial; ON HAND (Parts Bin), listed only to check count"
-,72930-2,Pomona Electronics,4,"J1, J4, J7, J10 (HV, red)","Panel-mount IEC 61010 4 mm jack for sheathed plugs, hex nut + screw/lug termination, red, 1000 V CAT II (wired to the PCB with 600 V wire and ring lugs). Datasheet https://www.mouser.com/datasheet/2/159/d72930_002-1515081.pdf"
-,72930-4,Pomona Electronics,3,"J2, J5, J8 (LV, yellow)","Panel-mount IEC 61010 4 mm jack for sheathed plugs, hex nut + screw/lug termination, yellow, 1000 V CAT II (wired to the PCB with 600 V wire and ring lugs). Datasheet https://www.mouser.com/datasheet/2/159/d72930_002-1515081.pdf"
-,72930-0,Pomona Electronics,6,"J3, J6, J9, J11, J14, J16 (COM, black)","Panel-mount IEC 61010 4 mm jack for sheathed plugs, hex nut + screw/lug termination, black, 1000 V CAT II (wired to the PCB with 600 V wire and ring lugs). Datasheet https://www.mouser.com/datasheet/2/159/d72930_002-1515081.pdf"
-,PPTC221LFBN-RC,Sullins Connector Solutions,2,ESP32 socket,"Female header 1x22, 2.54 mm (DevKitC-1 socket); skip if spares left from rev C"
-,PRPC040SAAN-RC,Sullins Connector Solutions,1,J12 PZEM TTL,"Male header 1x40 breakaway, 2.54 mm; use 4 pins for 5V/RX/TX/GND to PZEM-004T"
-,72930-6,Pomona Electronics,2,"J13, J15 (F1, F2 IN, blue)","Panel-mount IEC 61010 4 mm jack for sheathed plugs, hex nut + screw/lug termination, blue, 1000 V CAT II (wired to the PCB with 600 V wire and ring lugs). Datasheet https://www.mouser.com/datasheet/2/159/d72930_002-1515081.pdf"
+1.69KXBK-ND,MFR-25FBF52-1K69,Yageo,3,R16-R18 (CH1-CH3 divider bottom),1.69 kOhm 1% 1/4 W metal film
+13-MFR-25FBF52-39R-ND,MFR-25FBF52-39R,Yageo,3,R19-R21 (HCPL input filter),"39 Ohm 1% 1/4 W metal film (datasheet input RC filter, with 22 nF C0G already on hand)"
+7.50KXBK-ND,MFR-25FBF52-7K5,Yageo,6,R22-R27 (op-amp gain),7.5 kOhm 1% 1/4 W metal film (gain 0.75 with 10k on hand)
+445-8280-ND,FK14C0G1H223JN020,TDK,3,C1-C3 (HCPL input filter),"22 nF C0G 50 V radial; ON HAND (Parts Bin), listed only to check count"
+BC1084CT-ND,K104K15X7RF5TL2,Vishay,20,"bypass, all channels","100 nF X7R radial; ON HAND (Parts Bin), listed only to check count"
+445-FK14X7R1H105KR020-ND,FK14X7R1H105KR020,TDK,12,"DC-DC in/out, 78L05 out","1 uF X7R 50 V radial; ON HAND (Parts Bin), listed only to check count"
+501-1228-ND,72930-2,Pomona Electronics,4,"J1, J4, J7, J10 (HV, red)","Panel-mount IEC 61010 4 mm jack for sheathed plugs, hex nut + screw/lug termination, red, 1000 V CAT II (wired to the PCB with 600 V wire and ring lugs). Datasheet https://www.pomonaelectronics.com/files/datasheets/panel-mount-iec61010-4mm-0-16-in-jack-for-sheathed-plugs.pdf"
+501-1229-ND,72930-4,Pomona Electronics,3,"J2, J5, J8 (LV, yellow)","Panel-mount IEC 61010 4 mm jack for sheathed plugs, hex nut + screw/lug termination, yellow, 1000 V CAT II (wired to the PCB with 600 V wire and ring lugs). Datasheet https://www.pomonaelectronics.com/files/datasheets/panel-mount-iec61010-4mm-0-16-in-jack-for-sheathed-plugs.pdf"
+501-1226-ND,72930-0,Pomona Electronics,6,"J3, J6, J9, J11, J14, J16 (COM, black)","Panel-mount IEC 61010 4 mm jack for sheathed plugs, hex nut + screw/lug termination, black, 1000 V CAT II (wired to the PCB with 600 V wire and ring lugs). Datasheet https://www.pomonaelectronics.com/files/datasheets/panel-mount-iec61010-4mm-0-16-in-jack-for-sheathed-plugs.pdf"
+S7020-ND,PPTC221LFBN-RC,Sullins Connector Solutions,2,ESP32 socket,"Female header 1x22, 2.54 mm (DevKitC-1 socket); skip if spares left from rev C"
+S1011EC-40-ND,PRPC040SAAN-RC,Sullins Connector Solutions,1,J12 PZEM TTL,"Male header 1x40 breakaway, 2.54 mm; use 4 pins for 5V/RX/TX/GND to PZEM-004T"
+501-1231-ND,72930-6,Pomona Electronics,2,"J13, J15 (F1, F2 IN, blue)","Panel-mount IEC 61010 4 mm jack for sheathed plugs, hex nut + screw/lug termination, blue, 1000 V CAT II (wired to the PCB with 600 V wire and ring lugs). Datasheet https://www.pomonaelectronics.com/files/datasheets/panel-mount-iec61010-4mm-0-16-in-jack-for-sheathed-plugs.pdf"
 ,LTV-827,Lite-On,1,"U9 (F1, F2)","Dual optocoupler, DIP-8 (may be left over from rev C)"
 ,MFR-50FRF52-10K,Yageo,2,"R28-R29 (F1, F2 LED series)",10 kOhm 1% 1/2 W metal film
 ,1N4148,onsemi,2,"D1-D2 (F1, F2 reverse protection)","Small-signal diode, DO-35, across each LED"
