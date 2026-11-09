@@ -7,3 +7,4 @@ Newest last. One line per event; details live in the requirements doc.
 - 2026-11-09: Checked off-the-shelf options: isolated bench loggers (Hioki, Graphtec) cost $1.5k+ and don't feed HA; Bluetooth meters (Owon OW18E, UNI-T UT181A) are one channel each and need a BLE bridge. Kept the build.
 - 2026-11-09: First draft of requirements, README and ESPHome package (not compiled yet).
 - 2026-11-09: PR #1 merged. Scotty asked about the CS5460A; agreed on one power channel: CH4 = ADE7953 (chosen over CS5460A: in production, ESPHome driver, I2C) with clamp-on CT only (D-6, D-7; Scotty confirmed ADE7953). Requirements v0.2, firmware `power-channel.yaml`.
+- 2026-11-09: CT sized for small loads (D-8): SCT-013-000 with 33 Ω burden, about 21 A RMS full scale.
