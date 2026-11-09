@@ -24,7 +24,7 @@ substitutions:
   ch3_k_lv: "39.3"
   ch3_zero_hv: "0"
   ch3_zero_lv: "0"
-  # CH4 power channel (ADE7953): multipliers on ESPHome's built-in scaling.
+  # CH4 power channel (PZEM-004T): optional trim multipliers.
   ch4_v_cal: "1.0"
   ch4_i_cal: "1.0"
   ch4_p_cal: "1.0"
@@ -52,8 +52,8 @@ captive_portal:
 web_server:   # FR-12: live readings without Home Assistant
   port: 80
 
-# I2C on GPIO8/9: CH4 ADE7953 (0x38, through the isolator) and the
-# expansion header (FR-11). 1-Wire on GPIO15.
+# Expansion header (FR-11): I2C on GPIO8/9, 1-Wire on GPIO15.
+# CH4 PZEM-004T is on UART1 GPIO17/18 (power-channel.yaml).
 i2c:
   sda: GPIO8
   scl: GPIO9

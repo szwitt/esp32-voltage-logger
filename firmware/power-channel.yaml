@@ -1,37 +1,37 @@
-# CH4 power channel: ADE7953 behind an I2C isolator (D-6, D-7).
-# Voltage (AC RMS), frequency, CT current (A input), active/apparent power,
-# power factor. The ADE7953's own high-pass filter is on, so voltage here is
-# AC only; use CH1-CH3 for DC.
-#
-# ESPHome's driver uses fixed scale factors meant for other boards, so each
-# reading is multiplied by a calibration factor (substitutions ch4_*_cal),
-# found by comparing against a reference meter.
+# CH4 power channel: PZEM-004T v3.0 module (D-10) on UART1, Modbus 9600 baud.
+# AC mains only (80-260 V). The module is factory calibrated; the ch4_*_cal
+# multipliers are there for fine trimming against a reference meter.
+
+uart:
+  - id: pzem_uart
+    tx_pin: GPIO17
+    rx_pin: GPIO18
+    baud_rate: 9600
+
+modbus:
+  - id: pzem_modbus
+    uart_id: pzem_uart
 
 sensor:
-  - platform: ade7953_i2c
-    address: 0x38
+  - platform: pzemac
+    modbus_id: pzem_modbus
     update_interval: ${report_interval}
-    voltage_pga_gain: 1x
-    current_pga_gain_a: 1x
     voltage:
       name: "${ch4_name} AC RMS"
-      accuracy_decimals: 2
       filters:
         - multiply: ${ch4_v_cal}
-    frequency:
-      name: "${ch4_name} Frequency"
-    current_a:
+    current:
       name: "${ch4_name} Current"
       accuracy_decimals: 3
       filters:
         - multiply: ${ch4_i_cal}
-    active_power_a:
+    power:
       name: "${ch4_name} Power"
       filters:
         - multiply: ${ch4_p_cal}
-    apparent_power_a:
-      name: "${ch4_name} Apparent power"
-      filters:
-        - multiply: ${ch4_p_cal}
-    power_factor_a:
+    energy:
+      name: "${ch4_name} Energy"
+    frequency:
+      name: "${ch4_name} Frequency"
+    power_factor:
       name: "${ch4_name} Power factor"

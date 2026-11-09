@@ -8,3 +8,4 @@ Newest last. One line per event; details live in the requirements doc.
 - 2026-11-09: First draft of requirements, README and ESPHome package (not compiled yet).
 - 2026-11-09: PR #1 merged. Scotty asked about the CS5460A; agreed on one power channel: CH4 = ADE7953 (chosen over CS5460A: in production, ESPHome driver, I2C) with clamp-on CT only (D-6, D-7; Scotty confirmed ADE7953). Requirements v0.2, firmware `power-channel.yaml`.
 - 2026-11-09: CT sized for small loads (D-8): SCT-013-000 with 33 Ω burden, about 21 A RMS full scale.
+- 2026-11-09: Scotty can't hand-solder SMD, so all through-hole (D-9, D-10): CH1-CH3 HCPL-7840 (DIP-8) + SIP isolated DC-DC; CH4 PZEM-004T v3.0 module (supersedes ADE7953 and the 33 Ω CT burden). Requirements v0.3.
