@@ -14,6 +14,8 @@ Status: **design draft**. No hardware built yet.
 - CH1-CH3: HV jack (to 425 V peak, so 240 V AC with margin), LV jack (to about 42 V peak), shared COM.
   In HA: DC (mean), AC RMS, true RMS, and a Range select (HV/LV).
 - CH4 power channel (PZEM-004T module, 80-260 V AC): HV jack + COM + split-core CT. In HA: AC voltage, frequency, current, power, energy, power factor.
+- F1, F2: two isolated frequency/state inputs (tach, contacts), 3-30 V, up to 5 kHz.
+- CH1-CH3 also report min and max per interval, so short dips show up.
 - ESP32-S3-DevKitC-1, USB-C powered from any charger (inputs are isolated, so no power bank).
 - Expansion header: I2C plus 1-Wire for extra sensors.
 - Built-in web page with live readings, for use without Home Assistant.
@@ -34,6 +36,7 @@ closed enclosure), but treat it with the care that implies. See
 | `firmware/voltage-logger.yaml` | Shared ESPHome package (don't edit per project) |
 | `firmware/channel.yaml` | One voltage channel, included for CH1-CH3 |
 | `firmware/power-channel.yaml` | CH4 power channel (PZEM-004T) |
+| `firmware/freq-inputs.yaml` | F1, F2 frequency/state inputs |
 | `firmware/example-device.yaml` | Copy this per logger: names and calibration |
 | `hardware/` | Schematic and PCB (to come) |
 

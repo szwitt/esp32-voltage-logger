@@ -1,6 +1,6 @@
 # ESP32 Voltage Logger: requirements
 
-Version 0.3 (draft, 2026-11-09)
+Version 0.4 (draft, 2026-11-09)
 
 A reusable, multi-channel, multimeter-style voltage logger. Each channel is
 galvanically isolated, reads AC and DC up to household mains voltage, and
@@ -23,6 +23,7 @@ nothing in it is tied to that project.
 | D-8 | *(Superseded by D-10.)* CH4 is sized for small loads: SCT-013-000 current-output CT (100 A : 50 mA) with a 33 Ω burden, about 21 A RMS full scale. For very small loads, loop the wire through the clamp N times and divide by N (set in calibration). | 2026-11-09 | Scotty (small loads), Claude (CT and burden) |
 | D-9 | All through-hole: no surface-mount parts (Scotty has no SMD tooling). CH1-CH3 use a Broadcom HCPL-7840 isolation amplifier (DIP-8) instead of the AMC3330. | 2026-11-09 | Scotty |
 | D-10 | CH4 uses a ready-made PZEM-004T v3.0 power meter module (100 A, split-core CT variant) instead of the ADE7953 (leadless package, no practical socket). Mounted on standoffs, screw terminals, isolated serial output. | 2026-11-09 | Scotty |
+| D-11 | Requirements scrub against the fan interposer work: add 2 isolated frequency/state inputs (F1, F2) and min/max per report interval on CH1-CH3. Waveform, PWM duty and sub-millisecond work stay with the oscilloscope. | 2026-11-09 | Scotty (scrub), Claude (findings) |
 
 ## Notes
 
@@ -50,6 +51,8 @@ nothing in it is tied to that project.
 | FR-14 | CH4 voltage: one HV jack + COM wired to the PZEM's L/N terminals, fused. Resolution 0.1 V. |
 | FR-15 | CH4 current: the PZEM's own split-core 100 A CT, its leads on the PZEM's screw terminals (D-10). |
 | FR-16 | CH4 calibration: optional voltage, current and power multipliers in YAML substitutions (module is factory calibrated). |
+| FR-17 | Two isolated digital inputs F1, F2 (IN + COM jack each), 3 to 30 V signals, up to 5 kHz. Each reports frequency (with a per-input scale, for example rpm = Hz x 60 / 12 for a 12-pulse tach) and on/off state. Optocoupler (LTV-827 dual) into ESP32 pulse counters GPIO10/GPIO11 (D-11). |
+| FR-18 | CH1-CH3 also report the minimum and maximum over each report interval, so short dips (about 1 s, like the interposer's motor-power drops) show up even at a 1 s or slower report rate (D-11). |
 
 ## Hardware concept: voltage channels CH1-CH3
 
@@ -80,6 +83,20 @@ COM jack ──────────────────────[1.69
   ADC is a possible later upgrade if the ESP32 ADC proves too noisy.
 - **Board:** small 2-layer PCB (OSH Park), ESP32-S3-DevKitC-1 on headers.
 
+## Hardware concept: frequency inputs F1, F2
+
+```
+F1 IN jack ──[10 kΩ 1/2 W]──┬── LTV-827 LED A ──║── collector ── GPIO10 (pull-up 10 kΩ to 3.3 V)
+F1 COM jack ────────────────┴── (reverse diode across LED)
+F2: same, LTV-827 second half -> GPIO11
+```
+
+- About 0.3 mA at 5 V and 3 mA at 30 V into the LED; the LTV-827's
+  phototransistor is slow (tens of µs), fine to about 5 kHz.
+- What the interposer needed it for: the motor's tach (BU, 12 pulses per rev,
+  about 200 to 320 Hz) on the motor side and on the board side at once, to see
+  the synthetic-tach handback creep, and the Remote In dry contact state.
+
 ## Hardware concept: power channel CH4
 
 ```
@@ -108,13 +125,27 @@ COM jack ─────────┘                          │   CT (split
 | SR-5 | Closed plastic enclosure; no exposed metal connected to any input. USB and expansion header are on the safe (ESP32) side only. |
 | SR-6 | Connect leads with the circuit de-energised where possible. |
 
+## What the fan interposer would have needed (requirements scrub, D-11)
+
+| Signal (interposer) | Type | Covered by |
+|---|---|---|
+| WH 15 V rail, sag and overnight bursts | DC, 0.05 V, BK (mains) referenced | CH1 LV |
+| YE / VSP from the unit's board | DC 0 to 7 V, BK referenced | CH2 LV |
+| YE / VSP as driven by the ESP32 | DC 0 to 7 V, BK referenced | CH3 LV |
+| Motor tach (BU), motor side and board side | 200 to 320 Hz pulses | F1, F2 (new) |
+| Remote In dry contact (5 V, 0.6 mA) | state | F1/F2 state, or a CH LV |
+| Unit mains supply and fan power | AC 120 V, watts | CH4 |
+| 160 V DC motor bus (RD) | DC | CH HV range |
+| ~1 s motor-power drops | short dips | FR-18 min/max |
+| PWM duty, 1 kHz pickup on a floating tach, edge timing | waveform | oscilloscope (out of scope) |
+
 ## Firmware
 
 ESPHome package `firmware/voltage-logger.yaml`, included from a per-use device
 file (see `firmware/example-device.yaml`). First cut uses ESPHome's `adc` plus
 `ct_clamp` components for CH1-CH3 and `pzemac` for CH4
 (`firmware/power-channel.yaml`); a small custom component that computes DC mean, AC RMS,
-min and max in one sampling pass is planned.
+min and max in one sampling pass is planned (FR-18 min/max is done in YAML for now). F1/F2 use `pulse_counter` (`firmware/freq-inputs.yaml`).
 
 ## Change log
 
@@ -123,3 +154,4 @@ min and max in one sampling pass is planned.
 | 0.1 | 2026-11-09 | First draft: D-1 to D-3, per-channel AMC3330 concept, open questions Q-1 to Q-3; D-4, D-5 settle Q-1 and Q-2. |
 | 0.2 | 2026-11-09 | D-6 CH4 power channel with ADE7953 (settles Q-3), D-7 CT-only current. FR-13 to FR-16, CH4 hardware concept. D-8 CT for small loads (33 Ω burden). |
 | 0.3 | 2026-11-09 | D-9 all through-hole: HCPL-7840 + SIP DC-DC on CH1-CH3. D-10 PZEM-004T module on CH4 (supersedes ADE7953 and D-8). FR-5, FR-13 to FR-16 and both hardware concepts rewritten. |
+| 0.4 | 2026-11-09 | Requirements scrub against the interposer (D-11): FR-17 isolated frequency/state inputs F1, F2; FR-18 min/max per interval; table of interposer signals vs channels. |

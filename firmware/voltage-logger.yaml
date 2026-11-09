@@ -28,6 +28,14 @@ substitutions:
   ch4_v_cal: "1.0"
   ch4_i_cal: "1.0"
   ch4_p_cal: "1.0"
+  # F1, F2 frequency inputs. pulse_counter reports pulses per minute;
+  # multiply by scale_per_min to get your unit. Hz: 1/60. rpm, 12-pulse tach: 1/12.
+  f1_name: "F1"
+  f1_unit: "Hz"
+  f1_scale_per_min: "0.0166667"
+  f2_name: "F2"
+  f2_unit: "Hz"
+  f2_scale_per_min: "0.0166667"
 
 esphome:
   name: ${device_name}
@@ -64,6 +72,7 @@ packages:
   ch2: !include { file: channel.yaml, vars: { ch: 2, pin: GPIO2, name: "${ch2_name}", report_interval: "${report_interval}", mid: "${mid}", k_hv: "${ch2_k_hv}", k_lv: "${ch2_k_lv}", zero_hv: "${ch2_zero_hv}", zero_lv: "${ch2_zero_lv}" } }
   ch3: !include { file: channel.yaml, vars: { ch: 3, pin: GPIO5, name: "${ch3_name}", report_interval: "${report_interval}", mid: "${mid}", k_hv: "${ch3_k_hv}", k_lv: "${ch3_k_lv}", zero_hv: "${ch3_zero_hv}", zero_lv: "${ch3_zero_lv}" } }
   ch4: !include power-channel.yaml
+  freq: !include freq-inputs.yaml
 
 sensor:
   - platform: wifi_signal

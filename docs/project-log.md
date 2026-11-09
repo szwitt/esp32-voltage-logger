@@ -10,3 +10,4 @@ Newest last. One line per event; details live in the requirements doc.
 - 2026-11-09: CT sized for small loads (D-8): SCT-013-000 with 33 Ω burden, about 21 A RMS full scale.
 - 2026-11-09: Scotty can't hand-solder SMD, so all through-hole (D-9, D-10): CH1-CH3 HCPL-7840 (DIP-8) + SIP isolated DC-DC; CH4 PZEM-004T v3.0 module (supersedes ADE7953 and the 33 Ω CT burden). Requirements v0.3.
 - 2026-11-09: Digi-Key stock-check CSV (hardware/digikey-stock-check.csv) for Scotty's inventory check; PZEM-004T and enclosure bought elsewhere / later.
+- 2026-11-09: Requirements scrub against the fan interposer (D-11, v0.4): its WH rail and two YE/VSP signals fit CH1-CH3 LV, but the tach comparison needed frequency inputs and the 1 s motor-power drops needed min/max. Added F1/F2 (LTV-827) and per-interval min/max. Waveform/PWM work stays with the scope.
