@@ -1,0 +1,37 @@
+# CH4 power channel: ADE7953 behind an I2C isolator (D-6, D-7).
+# Voltage (AC RMS), frequency, CT current (A input), active/apparent power,
+# power factor. The ADE7953's own high-pass filter is on, so voltage here is
+# AC only; use CH1-CH3 for DC.
+#
+# ESPHome's driver uses fixed scale factors meant for other boards, so each
+# reading is multiplied by a calibration factor (substitutions ch4_*_cal),
+# found by comparing against a reference meter.
+
+sensor:
+  - platform: ade7953_i2c
+    address: 0x38
+    update_interval: ${report_interval}
+    voltage_pga_gain: 1x
+    current_pga_gain_a: 1x
+    voltage:
+      name: "${ch4_name} AC RMS"
+      accuracy_decimals: 2
+      filters:
+        - multiply: ${ch4_v_cal}
+    frequency:
+      name: "${ch4_name} Frequency"
+    current_a:
+      name: "${ch4_name} Current"
+      accuracy_decimals: 3
+      filters:
+        - multiply: ${ch4_i_cal}
+    active_power_a:
+      name: "${ch4_name} Power"
+      filters:
+        - multiply: ${ch4_p_cal}
+    apparent_power_a:
+      name: "${ch4_name} Apparent power"
+      filters:
+        - multiply: ${ch4_p_cal}
+    power_factor_a:
+      name: "${ch4_name} Power factor"
