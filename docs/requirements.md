@@ -58,7 +58,7 @@ nothing in it is tied to that project.
 
 ```
 HV jack ──[fuse/flameproof R]──[4 x 1 MΩ HV string]──┐
-LV jack ──[fuse/flameproof R]──[390 kΩ, 1 W, 500 V]──┤
+LV jack ──[2 x 200 kΩ HV, in series]─────────────┤
                                                      ├── HCPL-7840 VIN+ ──║── VOUT+/VOUT- ── op-amp (diff -> single-ended, 1.65 V mid)
 COM jack ──────────────────────[1.69 kΩ]─────────────┘    HCPL-7840 VIN-  ║               └── ESP32-S3 ADC1 pin
                                                           VDD1 5 V        ║  VDD2 5 V (USB side)
@@ -76,9 +76,9 @@ COM jack ──────────────────────[1.69
 - **Scaling (nominal):** HV 425 V peak and LV 42 V peak both map to about
   ±0.18 V at the HCPL input, ±1.44 V differential at its output, and (op-amp
   gain 0.75) about ±1.08 V at the ADC around 1.65 V. Overall gain stays about
-  393 V (HV) and 39 V (LV) per ADC volt, so the firmware defaults hold.
-- **Fault case:** mains on the LV jack: the 390 kΩ dissipates about 0.3 W
-  (1 W, 500 V part) and the HCPL input sees about ±1.5 V peak, inside its
+  393 V (HV) and 40 V (LV, 400 kΩ top) per ADC volt, so the firmware defaults hold.
+- **Fault case:** mains on the LV jack: the two 200 kΩ (1600 V rated) share
+  about 0.3 W at 240 V (0.15 W each, 1/4 W parts) and the HCPL input sees about ±1.5 V peak, inside its
   absolute rating (-2 V to VDD1 + 0.5 V; to confirm on the datasheet), so the
   reading clips but nothing is damaged.
 - **Op-amp:** MCP6002 (DIP-8, dual, 3.3 V rail to rail): one dual per two channels.
@@ -157,4 +157,4 @@ min and max in one sampling pass is planned (FR-18 min/max is done in YAML for n
 | 0.1 | 2026-11-09 | First draft: D-1 to D-3, per-channel AMC3330 concept, open questions Q-1 to Q-3; D-4, D-5 settle Q-1 and Q-2. |
 | 0.2 | 2026-11-09 | D-6 CH4 power channel with ADE7953 (settles Q-3), D-7 CT-only current. FR-13 to FR-16, CH4 hardware concept. D-8 CT for small loads (33 Ω burden). |
 | 0.3 | 2026-11-09 | D-9 all through-hole: HCPL-7840 + SIP DC-DC on CH1-CH3. D-10 PZEM-004T module on CH4 (supersedes ADE7953 and D-8). FR-5, FR-13 to FR-16 and both hardware concepts rewritten. |
-| 0.4 | 2026-11-09 | Requirements scrub against the interposer (D-11): FR-17 isolated frequency/state inputs F1, F2; FR-18 min/max per interval; table of interposer signals vs channels. Stock check: REM1-0505S + MCP1702 replace REM1-0509S + 78L05, Stackpole RNV replace Yageo HHV, Pomona 72930 jacks replace Staubli. |
+| 0.4 | 2026-11-09 | Requirements scrub against the interposer (D-11): FR-17 isolated frequency/state inputs F1, F2; FR-18 min/max per interval; table of interposer signals vs channels. Stock check: REM1-0505S + MCP1702 replace REM1-0509S + 78L05, Stackpole RNV replace Yageo HHV, Pomona 72930 jacks replace Staubli; LV top = 2 x 200 kΩ RNV14. |

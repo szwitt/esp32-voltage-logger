@@ -13,15 +13,15 @@ substitutions:
   # Nominal gains, input volts per ADC volt (see docs/requirements.md).
   # Replace with calibrated values per channel in the device file.
   ch1_k_hv: "395.3"
-  ch1_k_lv: "39.3"
+  ch1_k_lv: "40.3"
   ch1_zero_hv: "0"
   ch1_zero_lv: "0"
   ch2_k_hv: "395.3"
-  ch2_k_lv: "39.3"
+  ch2_k_lv: "40.3"
   ch2_zero_hv: "0"
   ch2_zero_lv: "0"
   ch3_k_hv: "395.3"
-  ch3_k_lv: "39.3"
+  ch3_k_lv: "40.3"
   ch3_zero_hv: "0"
   ch3_zero_lv: "0"
   # CH4 power channel (PZEM-004T): optional trim multipliers.
