@@ -1,48 +1,47 @@
-# ESP32 Voltage Logger
+# ESP32 Voltage Loggers
 
-A reusable 4-channel, multimeter-style voltage logger. Every channel is
-isolated on its own, reads **AC and DC up to household mains voltage**
-(CH4 also logs **current and power** from a clamp-on CT), and
-reports through **ESPHome to Home Assistant**, so every measurement gets
-history and graphs right away.
+Two small, reusable, multimeter-style loggers that report through
+**ESPHome to Home Assistant**, so every measurement gets history and graphs
+right away. Through-hole parts and pre-built modules only.
 
 Status: **design draft**. No hardware built yet.
 
-## At a glance
+## Logger M (mains)
 
-- 4 channels, each with its own reinforced isolation barrier (CH1-CH3: Broadcom HCPL-7840 isolation amplifier; CH4: PZEM-004T module). All through-hole, no SMD soldering.
-- CH1-CH3: HV jack (to 425 V peak, so 240 V AC with margin), LV jack (to about 42 V peak), shared COM.
-  In HA: DC (mean), AC RMS, true RMS, and a Range select (HV/LV).
-- CH4 power channel (PZEM-004T module, 80-260 V AC): HV jack + COM + split-core CT. In HA: AC voltage, frequency, current, power, energy, power factor.
-- F1, F2: two isolated frequency/state inputs (tach, contacts), 3-30 V, up to 5 kHz.
-- CH1-CH3 also report min and max per interval, so short dips show up.
-- ESP32-S3-DevKitC-1, USB-C powered from any charger (inputs are isolated, so no power bank).
-- Expansion header: I2C plus 1-Wire for extra sensors.
-- Built-in web page with live readings, for use without Home Assistant.
+- 2 circuits, each a PZEM-004T v3.0 module with a split-core 100 A CT.
+- Per circuit in HA: AC voltage, current, power, energy, frequency, power factor (80-260 V AC).
+- USB-powered from any charger (the PZEM serial ports are isolated).
+
+## Logger L (low voltage)
+
+- 4 channels, each an Adafruit INA228 breakout: 0-85 V DC plus optional DC current, mean/min/max per interval.
+- F1, F2: optocoupled frequency/state inputs (tach, contacts), 3-30 V, up to 5 kHz.
+- All channels share one COM; runs from a power bank so it can float on a circuit's reference.
+
+Both have a built-in web page with live readings, for use without Home Assistant.
 
 ## Safety
 
-This is a home-built, uncertified instrument that can connect to mains. It
-follows CAT II 300 V practice (creepage, fused inputs, rated jacks and leads,
-closed enclosure), but treat it with the care that implies. See
+These are home-built, uncertified instruments, and both can end up at mains
+potential (Logger M always, Logger L when floating on a mains-referenced
+circuit). Shrouded jacks, rated leads, closed enclosures. See
 [docs/requirements.md](docs/requirements.md#safety-requirements).
 
 ## Layout
 
 | Path | What |
 |------|------|
-| `docs/requirements.md` | Requirements, decisions, open questions, change log |
+| `docs/requirements.md` | Requirements, decisions, change log |
 | `docs/project-log.md` | Running log of what happened and why |
-| `firmware/voltage-logger.yaml` | Shared ESPHome package (don't edit per project) |
-| `firmware/channel.yaml` | One voltage channel, included for CH1-CH3 |
-| `firmware/power-channel.yaml` | CH4 power channel (PZEM-004T) |
-| `firmware/freq-inputs.yaml` | F1, F2 frequency/state inputs |
-| `firmware/example-device.yaml` | Copy this per logger: names and calibration |
-| `hardware/` | Schematic and PCB (to come) |
+| `firmware/common.yaml` | Shared ESP32-S3 base |
+| `firmware/mains-logger.yaml`, `mains-channel.yaml` | Logger M package |
+| `firmware/lv-logger.yaml`, `lv-channel.yaml`, `freq-inputs.yaml` | Logger L package |
+| `firmware/example-mains.yaml`, `example-lv.yaml` | Copy these per logger: names, units, calibration |
+| `hardware/digikey-stock-check.csv` | Digi-Key parts for both loggers |
 
-## Using it in a project
+## Using one in a project
 
-1. Copy `firmware/example-device.yaml`, set `device_name`, channel names and calibration.
+1. Copy `firmware/example-mains.yaml` or `firmware/example-lv.yaml`, set `device_name` and channel names.
 2. Add `secrets.yaml` (see `firmware/secrets.example.yaml`).
 3. Flash from ESPHome Device Builder, adopt in Home Assistant.
 

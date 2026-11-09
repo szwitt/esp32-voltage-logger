@@ -1,0 +1,10 @@
+# Example mains logger device file: copy per logger/project, set names.
+substitutions:
+  device_name: mains-logger-1
+  friendly_name: Mains Logger 1
+  api_key: !secret mains_logger_1_api_key
+  m1_name: "Fan coil supply"
+  m2_name: "M2"
+
+packages:
+  logger: !include mains-logger.yaml

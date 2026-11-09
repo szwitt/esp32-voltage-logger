@@ -1,0 +1,37 @@
+# LV logger package (Logger L): 4 x INA228 voltage/current channels on I2C,
+# F1/F2 optocoupled frequency/state inputs. All channels share one COM;
+# run it from a power bank when COM sits on a mains-referenced circuit.
+# Include from a device file (see example-lv.yaml); don't edit per project.
+
+substitutions:
+  # Each channel is sampled every sample_interval and reported every
+  # (samples x sample_interval). Default 100 ms x 10 = 1 s.
+  sample_interval: 100ms
+  samples: "10"
+  ch1_name: "L1"
+  ch2_name: "L2"
+  ch3_name: "L3"
+  ch4_name: "L4"
+  # F1, F2: pulse_counter gives pulses per minute; multiply to your unit.
+  # Hz: 1/60. rpm for a 12-pulse tach: 1/12.
+  report_interval: 1s
+  f1_name: "F1"
+  f1_unit: "Hz"
+  f1_scale_per_min: "0.0166667"
+  f2_name: "F2"
+  f2_unit: "Hz"
+  f2_scale_per_min: "0.0166667"
+
+i2c:
+  sda: GPIO8
+  scl: GPIO9
+  frequency: 400kHz
+  scan: true
+
+packages:
+  base: !include common.yaml
+  ch1: !include { file: lv-channel.yaml, vars: { ch: 1, addr: "0x40", name: "${ch1_name}", samples: "${samples}", sample_interval: "${sample_interval}" } }
+  ch2: !include { file: lv-channel.yaml, vars: { ch: 2, addr: "0x41", name: "${ch2_name}", samples: "${samples}", sample_interval: "${sample_interval}" } }
+  ch3: !include { file: lv-channel.yaml, vars: { ch: 3, addr: "0x44", name: "${ch3_name}", samples: "${samples}", sample_interval: "${sample_interval}" } }
+  ch4: !include { file: lv-channel.yaml, vars: { ch: 4, addr: "0x45", name: "${ch4_name}", samples: "${samples}", sample_interval: "${sample_interval}" } }
+  freq: !include freq-inputs.yaml
